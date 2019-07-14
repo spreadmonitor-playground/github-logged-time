@@ -1,0 +1,18 @@
+{
+  "name": "github-logged-time",
+  "author": "Spreadmonitor",
+  "description": "Displays logged time from Toggl next to Github issues.",
+  "license": "MIT",
+  "private": true,
+  "main": "src/github-logged-time.user.js",
+  "homepage": "https://github.com/spreadmonitor-playground/github-logged-time",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spreadmonitor-playground/github-logged-time.git"
+  },
+  "devDependencies": {
+    "@types/canvasjs": "^1.9.5",
+    "@types/jquery": "^3.3.30",
+    "@types/tampermonkey": "^4.0.0"
+  }
+}

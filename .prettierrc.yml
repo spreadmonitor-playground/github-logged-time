@@ -1,0 +1,12 @@
+# Configuration file for Prettier
+# Prettier is not installed as dependency, but editors which supports prettier
+# will pick up this file and use it for config.
+
+printWidth: 120
+tabWidth: 2
+useTabs: false
+semi: true
+singleQuote: true
+trailingComma: es5
+bracketSpacing: true
+arrowParens: avoid
