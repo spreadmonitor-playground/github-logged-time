@@ -17,7 +17,7 @@ You need the [Tampermonkey][tampermonkey] browser extension installed. You can i
 
 ### Script installation
 
-You can install this script via clicking the install button below or via manually copying the [content of the installation script][install-url] to an empy script
+You can install this script via clicking the install button below or via manually copying the [content of the installation script](https://github.com/spreadmonitor-playground/github-logged-time/blob/master/src/install.user.js) to an empy script
 created in the Trampermonkey dashboard.
 
 [![install-url][badge-svg]][install-url]
