@@ -4,12 +4,12 @@
 GM_addStyle(`
   #github-logged-time-chart-root #hour-wrapper {
     position: absolute;
-    width: 119px;
-    height: 119px;
+    width: 129px;
+    height: 129px;
     background: conic-gradient(red 100%, transparent 0);
     color: black;
-    top: 81px;
-    left: 40px;
+    top: 78px;
+    left: 46px;
     border-radius: 50%;
     overflow: hidden;
   }
@@ -17,10 +17,10 @@ GM_addStyle(`
   #github-logged-time-chart-root #hour-wrapper #clock {
     background: white;
     position: absolute;
-    width: 109px;
-    height: 111px;
+    width: 119px;
+    height: 121px;
     top: 4px;
-    left: 15px;
+    left: 5px;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
