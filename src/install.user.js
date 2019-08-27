@@ -7,7 +7,7 @@
 // @website       https://github.com/spreadmonitor-playground/github-logged-time
 // @iconURL       https://spreadmonitor.com/assets/logo.svg
 
-// @version       0.1
+// @version       0.2
 // @downloadURL   https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time/src/install.user.js
 
 // @noframes
@@ -20,8 +20,8 @@
 // @grant         GM_xmlhttpRequest
 
 // @require       https://canvasjs.com/assets/script/canvasjs.min.js
-// @require       https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time/src/add_style.js?v=0.1
-// @require       https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time/src/main.js?v=0.1
+// @require       https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time@0.2.0/src/add_style.js
+// @require       https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time@0.2.0/src/main.js
 
 // ==/UserScript==
 
