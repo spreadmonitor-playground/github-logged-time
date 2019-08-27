@@ -20,7 +20,7 @@ GM_addStyle(`
     width: 109px;
     height: 111px;
     top: 4px;
-    left: 5px;
+    left: 15px;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
