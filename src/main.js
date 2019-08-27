@@ -285,7 +285,7 @@ class GithubLoggedTimeChart {
    *
    * @returns {number} sum of estimated effor in seconds
    */
-  mapEffortLabelsToMinutes(selector = '.discussion-sidebar .labels a') {
+  mapEffortLabelsToMinutes(selector = '.discussion-sidebar-item .labels a') {
     const nodeList = document.querySelectorAll(selector);
     const labelRegexp = /^effort([0-9]):/;
     let sum = 0;
