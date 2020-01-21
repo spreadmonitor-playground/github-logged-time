@@ -43,7 +43,7 @@ class GithubLoggedTimeChart {
    * @returns {{ organization: string, repository: string, issueNumber: number }}
    */
   parseUrl(url) {
-    const regex = /github\.com\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)\/issues\/([0-9]+)/;
+    const regex = /github\.com\/([a-zA-Z0-9\-]+)\/([a-zA-Z0-9\-]+)\/issues\/([0-9]+)/;
     const matches = url.match(regex);
 
     if (!matches) {
