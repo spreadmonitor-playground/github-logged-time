@@ -9,7 +9,7 @@ GM_addStyle(`
     background: conic-gradient(red 100%, transparent 0);
     color: black;
     top: 78px;
-    left: 46px;
+    left: 75px;
     border-radius: 50%;
     overflow: hidden;
   }
