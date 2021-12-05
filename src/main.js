@@ -244,7 +244,7 @@ class GithubLoggedTimeChart {
     const dateOneYearBefore = new Date(new Date().setFullYear(new Date().getFullYear() - 1))
       .toISOString()
       .split('T')[0];
-    const baseUrl = 'https://toggl.com/reports/api/v2/details?';
+    const baseUrl = 'https://api.track.toggl.com/reports/api/v2/details?';
     const queryParams = [
       'user_agent=Spreadmonitor/GithubLoggedTimeChart',
       'workspace_id=2656645',
