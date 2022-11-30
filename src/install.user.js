@@ -7,7 +7,7 @@
 // @website       https://github.com/spreadmonitor-playground/github-logged-time
 // @iconURL       https://spreadmonitor.com/assets/logo.svg
 
-// @version       0.5
+// @version       0.6
 // @downloadURL   https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time/src/install.user.js
 
 // @noframes
@@ -25,7 +25,7 @@
 
 // ==/UserScript==
 
-(function() {
+(function () {
   'use strict';
   /**
    * Your personal Toggl API key from https://toggl.com/app/profile.
@@ -44,5 +44,12 @@
    */
   const projectIdMap = {};
 
-  new GithubLoggedTimeChart({ togglApiKey, projectIdMap });
+  /**
+   * A mapper object for pairing Github usernames to Toggle usernames.
+   *
+   * @type {{ [key: string] : string }}
+   */
+  const usernameMap = {};
+
+  new GithubLoggedTimeChart({ togglApiKey, projectIdMap, usernameMap });
 })();
