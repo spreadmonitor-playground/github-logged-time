@@ -4,11 +4,12 @@ class GithubLoggedTimeChart {
   /**
    * Setups the event listeners and loads initial state.
    *
-   * @param {{ togglApiKey: string, projectIdMap: { [key: string]: number[] } }} settings
+   * @param {{ togglApiKey: string, projectIdMap: { [key: string]: number[] }, usernameMap: { [key: string]: string} }} settings
    */
   constructor(settings) {
     this.togglAuthHeader = `Basic ${window.btoa(`${settings.togglApiKey}:api_token`)}`;
     this.projectIdMap = settings.projectIdMap;
+    this.usernameMap = settings.usernameMap;
 
     this.typeColorMap = Object.seal({
       build: '#80cbc4',
@@ -40,6 +41,7 @@ class GithubLoggedTimeChart {
    * Parses a github URL and returns the org, repo and issue number.
    *
    * @param {string} url full URL of the current page
+   *
    * @returns {{ organization: string, repository: string, issueNumber: number }}
    */
   parseUrl(url) {
@@ -50,7 +52,7 @@ class GithubLoggedTimeChart {
       throw new Error('URL parsing failed, not on a Github issue details page.');
     }
 
-    return { organization: matches[1], repository: matches[2], issueNumber: Number.parseInt(matches[3]) };
+    return { organization: matches[1], repository: matches[2], issueNumber: Number.parseInt(matches[3], 10) };
   }
 
   /**
@@ -116,8 +118,14 @@ class GithubLoggedTimeChart {
 
     hourWrapper.appendChild(clockDiv);
 
+    const developersRoot = document.createElement('div');
+    const developerList = document.createElement('ul');
+    developerList.id = 'developer-list';
+    developersRoot.appendChild(developerList);
+
     /** Append the finald structure to the DOM */
-    document.getElementById('partial-discussion-sidebar').prepend(chartRoot);
+    document.getElementById('partial-discussion-sidebar')?.prepend(developersRoot);
+    document.getElementById('partial-discussion-sidebar')?.prepend(chartRoot);
   }
 
   initChart() {
@@ -159,6 +167,37 @@ class GithubLoggedTimeChart {
       name: `${entry.type}`,
       message: entry.message,
     }));
+
+    const map = new Map();
+
+    for (const { user, duration } of data) {
+      if (map.get(user) === undefined) {
+        map.set(user, duration);
+      } else {
+        let val = map.get(user);
+        val += duration;
+        map.set(user, val);
+      }
+    }
+
+    const developerList = document.getElementById('developer-list');
+
+    map.forEach((timeDuration, name) => {
+      let devItem = document.createElement('li');
+      devItem.style.display = 'flex';
+      devItem.style.justifyContent = 'space-between';
+      devItem.style.listStyleType = 'none';
+
+      let nameSpan = document.createElement('span');
+      nameSpan.innerText = this.usernameMap[name];
+
+      let timeSpan = document.createElement('span');
+      timeSpan.innerText = this.timeToHhMm(this.secToTime(timeDuration));
+
+      devItem.appendChild(nameSpan);
+      devItem.appendChild(timeSpan);
+      developerList?.appendChild(devItem);
+    });
 
     if (spentTime < estimation) {
       slices.push({
@@ -228,6 +267,7 @@ class GithubLoggedTimeChart {
         type: item.description.split(':')[0].split('(')[0],
         duration: item.dur / 1000,
         message: item.description,
+        user: item.user,
       }));
   }
 
@@ -350,5 +390,17 @@ class GithubLoggedTimeChart {
     const minutes = Math.floor(left / 60);
     left = left - minutes * 60;
     return `${addPadding(hours)}:${addPadding(minutes)}:${addPadding(left)}`;
+  }
+
+  /**
+   * Converts 'hh:mm:ss' formatted string into 'hh:mm' format.
+   *
+   * @param {string} timeStr
+   *
+   * @return {string} time in "hh:mm" format.
+   */
+  timeToHhMm(timeStr) {
+    const [hours, minutes] = timeStr.split(':');
+    return `${hours}:${minutes}`;
   }
 }
