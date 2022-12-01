@@ -27,6 +27,6 @@ created in the Trampermonkey dashboard.
 After installation you need to add your personal Toggl access token from the [bottom of the profile page][toggl-profile-page] to the init script and define the mapping between the Toggl project IDs and github repo names.
 
 [tampermonkey]: https://www.tampermonkey.net/
-[install-url]: https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time/src/install.user.js
+[install-url]: https://cdn.jsdelivr.net/gh/spreadmonitor-playground/github-logged-time@latest/src/install.user.js
 [badge-svg]: https://badgen.net/badge/tampermonkey/install
 [toggl-profile-page]: https://toggl.com/app/profile
