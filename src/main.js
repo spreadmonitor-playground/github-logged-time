@@ -254,23 +254,20 @@ class GithubLoggedTimeChart {
    * @returns {Promise<{ description: string, type: string, duration: number, message: string }[]>}
    */
   async requestTogglEntiresList(repository, issueNumber) {
-    const firstPageResult = await this.requestPage(repository, issueNumber, 1);
-    const remainingPages = Math.ceil(firstPageResult.total_count / 50) - 1;
+    const firstPageResult = await this.requestPage(repository, issueNumber);
 
-    const restofPages = await Promise.all(
-      // remainingPages - 1 => skip already loaded first, i + 2 => skip page 0 (invalid), skip page 1 (already loaded)
-      Array.from({ length: remainingPages - 1 }).map((_, i) => this.requestPage(repository, issueNumber, i + 2))
-    );
+    return firstPageResult
+      .map(item => {
+        let duration = 0
+        item.time_entries.forEach(timeEntry => duration += timeEntry.seconds)
 
-    return [firstPageResult, ...restofPages]
-      .reduce((acc, curr) => [...acc, ...curr.data], [])
-      .map(item => ({
+        return {
         description: item.description.split(': ')[1],
         type: item.description.split(':')[0].split('(')[0],
-        duration: item.dur / 1000,
+        duration: duration,
         message: item.description,
-        user: item.user,
-      }));
+        user: item.username,
+      }});
   }
 
   /**
@@ -278,31 +275,31 @@ class GithubLoggedTimeChart {
    *
    * @param {string} repository
    * @param {number} issueNumber
-   * @param {number} page
    *
    * @returns {Promise<any>}
    */
-  requestPage(repository, issueNumber, page = 1) {
+  requestPage(repository, issueNumber) {
     const dateOneYearBefore = new Date(new Date().setFullYear(new Date().getFullYear() - 1))
       .toISOString()
       .split('T')[0];
-    const baseUrl = 'https://api.track.toggl.com/reports/api/v2/details?';
-    const queryParams = [
-      'user_agent=Spreadmonitor/GithubLoggedTimeChart',
-      'workspace_id=2656645',
-      `project_ids=${this.projectIdMap[repository].join(',')}`,
-      `since=${dateOneYearBefore}`,
-      // %23 => #
-      `description=%23${issueNumber}`,
-      `&order_field=date`,
-      `&order_desc=off`,
-      `page=${page}`,
-    ].join('&');
+    const currentDate = new Date()
+      .toISOString()
+      .split('T')[0];
+    const baseUrl = `https://api.track.toggl.com/reports/api/v3/workspace/2656645/search/time_entries`;
+    const body = JSON.stringify({
+      project_ids: this.projectIdMap[repository], 
+      start_date: dateOneYearBefore, 
+      end_date: currentDate, 
+      description: issueNumber.toString(), 
+      order_by: 'date', 
+      order_dir: 'asc'
+    })
 
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
-        method: 'GET',
-        url: `${baseUrl}${queryParams}`,
+        method: 'POST',
+        url: baseUrl,
+        data: body,
         headers: { Authorization: this.togglAuthHeader },
         onerror: reject,
         onload: ({ response }) => resolve(JSON.parse(response)),
