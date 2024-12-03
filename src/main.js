@@ -26,11 +26,13 @@ class GithubLoggedTimeChart {
     try {
       const pageDetails = this.parseUrl(location.href);
 
-      // render the initial structure
-      this.renderStructure();
-      // init the chart in the rendered structure
-      this.chart = this.initChart();
-      this.requestTogglEntiresList(pageDetails.repository, pageDetails.issueNumber).then(data => this.updateUI(data));
+      // render the initial structure, we need the timeout, so that github doesn't override the page immediately
+      setTimeout(() => {
+        this.renderStructure();
+        // init the chart in the rendered structure
+        this.chart = this.initChart();
+        this.requestTogglEntiresList(pageDetails.repository, pageDetails.issueNumber).then(data => this.updateUI(data));
+      })
     } catch (error) {
       console.error('Could not render Github Logged Time Chart!');
       console.error(error);
@@ -123,9 +125,9 @@ class GithubLoggedTimeChart {
     developerList.id = 'developer-list';
     developersRoot.appendChild(developerList);
 
-    /** Append the finald structure to the DOM */
-    document.getElementById('partial-discussion-sidebar')?.prepend(developersRoot);
-    document.getElementById('partial-discussion-sidebar')?.prepend(chartRoot);
+    /** Append the final structure to the DOM */
+    document.querySelector('[data-testid="issue-viewer-metadata-pane"]')?.prepend(developersRoot);
+    document.querySelector('[data-testid="issue-viewer-metadata-pane"]')?.prepend(chartRoot);
   }
 
   initChart() {
