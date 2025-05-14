@@ -45,7 +45,7 @@
   const projectIdMap = {};
 
   /**
-   * A mapper object for pairing Github usernames to Toggle usernames.
+   * A mapper object for pairing Toggle usernames to Github usernames.
    *
    * @type {{ [key: string] : string }}
    */
